@@ -1,0 +1,61 @@
+{
+	"name": "マサムネ：使命の閃刃",
+    "number": 7481,
+    "element": 1,
+    "tribe": "サムライ",
+    "hittype": 1,
+    "gageshot": 0,
+    "statustype": 0,
+    "status": {
+        "HP": {
+            "base": 19175,
+            "plus": 4900
+        },
+        "ATK": {
+            "base": 28505,
+            "plus": 4000
+        },
+        "SPD": {
+            "base": 378.70,
+            "plus": 55.25
+        }
+    },
+    "ability": {
+        "base": ["超アンチダメージウォール","超マインスイーパーL","アンチブロック","超アンチ転送壁","ファーストキラーM","攻撃力チャージ"],
+        "shotskill": "最初にふれた敵の弱点をすべて出現させる",
+        "assistskill": "各ボスマップ開始時にSSターンを3ターン短縮"
+    },
+    "strikeshot": {
+        "name": "神刀赤閃",
+        "turn": [12,20],
+        "description": "スピードとパワーがアップ&自身を一定期間、バブリー状態にする",
+        "data": {
+            "basis": {
+                "attack": [1.5,2.0],
+                "speed": [2,4],
+                "deceleration": null
+            },
+            "effects": [{
+                "name": "バブリー状態",
+                "properties": [{
+                    "label":"減速率緩和",
+                    "value":["0.5倍","0.5倍"]
+                }]
+            }]
+        }
+    },
+    "bumpcombo": [
+        {
+            "name": "防御ダウン弾",
+            "element": 0,
+            "power": 225000,
+            "description": "敵を防御力ダウンさせる貫通弾で攻撃"
+        },
+        {
+            "name": "超強全敵貫通ロックオン衝撃波 3",
+            "element": 1,
+            "power": 137295,
+            "description": "画面上のすべての敵に向かって強力な属性貫通衝撃波を放つ"
+        }
+    ]
+}
