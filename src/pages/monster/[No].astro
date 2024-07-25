@@ -15,6 +15,11 @@ import SSDataTable from '../../components/SSDataTable.astro';
 import ElementIcon from '../../components/ElementIcon.astro';
 
 const data = Astro.props;
+const statusGageMaxValues = {
+	HP: 36000,
+	ATK: 62500,
+	SPD: 625,
+};
 ---
 
 <Layout title=`${data.name}のSS倍率`>
@@ -30,31 +35,43 @@ const data = Astro.props;
 				<li>戦型：{["バランス","パワー","スピード","砲撃"][data.statustype]}型</li>
 			</ul>
 			<h2>ステータス</h2>
-			<div class="status-bar">
-				<div class="status-HP">
-					<div class="status-label">HP</div>
-					<div class="status-gage">
-						<div class="status-gage-bar" style=`width:${(data.status.HP.base + data.status.HP.plus) / 36000 * 100}%`></div>
-						<div class="status-gage-value">
-							{data.status.HP.base} <span class="plus-value">+{data.status.HP.plus}</span>
+			<div class="status">
+				<div class="status-bar-format-change">
+					<div class="status-bar-format-change-button is-active" data-type="0">+値表示</div>
+					<div class="status-bar-format-change-button" data-type="1">合計値</div>
+					{()=>{if(data.gageshot){
+						return <div class="status-bar-format-change-button" data-type="2">ゲージ込み</div>
+					}}}
+				</div>
+				<div class="status-bar" data-formattype="0">
+					<div class="status-HP">
+						<div class="status-label">HP</div>
+						<div class="status-gage">
+							<div class="status-gage-bar" style=`width:${(data.status.HP.base + data.status.HP.plus) / statusGageMaxValues.HP * 100}%` data-value={(data.status.HP.base + data.status.HP.plus)} data-maxvalue={statusGageMaxValues.HP}></div>
+							<div class="status-gage-value">
+								<span class="main-value">{data.status.HP.base}</span>
+								<span class="sub-value">+{data.status.HP.plus}</span>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="status-ATK">
-					<div class="status-label">ATK</div>
-					<div class="status-gage">
-						<div class="status-gage-bar" style=`width:${(data.status.ATK.base + data.status.ATK.plus) / 62500 * 100}%`></div>
-						<div class="status-gage-value">
-							{data.status.ATK.base} <span class="plus-value">+{data.status.ATK.plus}</span>
+					<div class="status-ATK">
+						<div class="status-label">ATK</div>
+						<div class="status-gage">
+							<div class="status-gage-bar" style=`width:${(data.status.ATK.base + data.status.ATK.plus) / statusGageMaxValues.ATK * 100}%` data-value={(data.status.ATK.base + data.status.ATK.plus)} data-maxvalue={statusGageMaxValues.ATK}></div>
+							<div class="status-gage-value">
+								<span class="main-value">{data.status.ATK.base}</span>
+								<span class="sub-value">+{data.status.ATK.plus}</span>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="status-SPD">
-					<div class="status-label">SPD</div>
-					<div class="status-gage">
-						<div class="status-gage-bar" style=`width:${(data.status.SPD.base + data.status.SPD.plus) / 625 * 100}%`></div>
-						<div class="status-gage-value">
-							{data.status.SPD.base.toFixed(2)} <span class="plus-value">+{data.status.SPD.plus.toFixed(2)}</span>
+					<div class="status-SPD">
+						<div class="status-label">SPD</div>
+						<div class="status-gage">
+							<div class="status-gage-bar" style=`width:${(data.status.SPD.base + data.status.SPD.plus) / statusGageMaxValues.SPD * 100}%` data-value={(data.status.SPD.base + data.status.SPD.plus)} data-maxvalue={statusGageMaxValues.SPD}></div>
+							<div class="status-gage-value">
+								<span class="main-value">{data.status.SPD.base.toFixed(2)}</span>
+								<span class="sub-value">+{data.status.SPD.plus.toFixed(2)}</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -172,6 +189,85 @@ const data = Astro.props;
 			</div>
 		</div>
 
+		<script is:inline set:html={()=>{
+			const objectText = `{
+				HP: {
+				    base: ${Number(data.status.HP.base)},
+					plus: ${Number(data.status.HP.plus)}
+				},
+				ATK: {
+					base: ${Number(data.status.ATK.base)},
+					plus: ${Number(data.status.ATK.plus)}
+				},
+				SPD: {
+					base: ${Number(data.status.SPD.base)},
+					plus: ${Number(data.status.SPD.plus)}
+				}
+			}`;
+			return (`const charStatusValues = ${objectText.replace(/\s+/g,'')};`);
+		}}>
+		</script>
+		<script is:inline>
+			document.addEventListener('DOMContentLoaded', () => {
+				document.querySelectorAll('.status-bar-format-change-button').forEach((elem)=>{
+					elem.addEventListener('click', (event) => {
+						const formatType = Number(event.currentTarget.dataset.type);
+						document.querySelector('.status-bar').dataset.formattype = formatType;
+						document.querySelectorAll('.status-bar-format-change-button').forEach((button)=>{
+							if (button.dataset.type == formatType) {
+								button.classList.add('is-active');
+							}else{
+								button.classList.remove('is-active');
+							}
+						});
+						["HP","ATK","SPD"].forEach((k)=>{
+							const mainValue = (() => {
+								const sumValue = charStatusValues[k].base + charStatusValues[k].plus;
+								switch (formatType) {
+									case 0:
+										return charStatusValues[k].base;
+									case 1:
+										return sumValue;
+									case 2:
+										if (k === "ATK") {
+											return sumValue * 6 / 5;
+										}
+										return sumValue;
+								}
+							})();
+							document.querySelector(`.status-${k} .status-gage-value .main-value`).textContent = (() => {
+								if (k === "SPD") {
+									return mainValue.toFixed(2);
+								}
+								return mainValue;
+							})();
+						});
+						const gageValue = (() => {
+							const sumValue = charStatusValues.ATK.base + charStatusValues.ATK.plus;
+							if (formatType === 2) {
+								return sumValue * 6 / 5;
+							}
+							return sumValue;
+						})();
+						document.querySelector('.status-ATK .status-gage-bar').dataset.value = gageValue;
+					});
+				});
+			});
+		</script>
+		<script is:inline>
+			document.addEventListener('DOMContentLoaded', () => {
+				// ゲージ変更
+				const subject = document.querySelectorAll('.status-gage-bar');
+				subject.forEach((elem) => {
+					const callbackfn = function (records) {
+						const gageElement = records[0].target;
+						gageElement.style.width = `${(gageElement.dataset.value) / (gageElement.dataset.maxvalue) * 100}%`;
+					};
+					const observer = new MutationObserver(callbackfn);
+					observer.observe(elem, {attributes: true, attributeFilter: ["data-value"]});
+				});
+			});
+		</script>
 	</main>
 </Layout>
 
@@ -183,6 +279,26 @@ const data = Astro.props;
 	}
 	h2 + div{
 		padding-inline: 1em;
+	}
+	.status-bar-format-change{
+		display: flex;
+		gap: 0.3em;
+		margin-block: 0.5em;
+	}
+	.status-bar-format-change-button{
+		padding: 0.15em 0.5em;
+		border-radius: 4px;
+		border: 2px solid #222;
+		background-color: #F0F0F0;
+		text-align: center;
+		font-size: 0.8em;
+		font-weight: bold;
+		cursor: pointer;
+		user-select: none;
+	}
+	.status-bar-format-change-button.is-active{
+		background-color: #222;
+		color: #F0F0F0;
 	}
 	.status-bar{
 		display: flex;
@@ -206,7 +322,7 @@ const data = Astro.props;
 	}
 	.status-gage-bar{
 		position: absolute;
-		clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+		clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
 		height: 100%;
 		text-wrap: nowrap;
 	}
@@ -223,8 +339,14 @@ const data = Astro.props;
 		position: absolute;
 		padding-inline: 0.5em;
 	}
-	.plus-value{
+	.main-value{
+		font-size: 1em;
+	}
+	.sub-value{
 		font-size: 0.8em;
+	}
+	.status-bar:not([data-formattype="0"]) .sub-value{
+		display: none;
 	}
 	.ability{
 		display: grid;
