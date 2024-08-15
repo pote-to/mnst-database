@@ -5,10 +5,12 @@ interface Props {
 }
 
 const { name, number } = Astro.props;
+
+import { rootRelPath } from '../js/rootRelPath';
 ---
 
 <li class="data-card" data-id={number}>
-	<a href={`./monster/${number}`}>
+	<a href={rootRelPath(`/monster/${number}/`)}>
 		<div>
 			<div class="monster-number">No.{number}</div>
 			<div class="monster-name">{name}</div>

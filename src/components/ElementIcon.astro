@@ -13,10 +13,12 @@ const elementNameList = {
 	5: "闇",
 	6: "全",
 }
+
+import { rootRelPath } from '../js/rootRelPath';
 ---
 
 <img
-	src={`/img/element/${element_id}.png`}
+	src={rootRelPath(`/img/element/${element_id}.png`)}
 	alt={`${elementNameList[element_id]}属性`}
 	width="20" height="20"
 />
