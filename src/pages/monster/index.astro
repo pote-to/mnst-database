@@ -15,7 +15,7 @@ import DataCard from '../../components/DataCard.astro';
 				<input type="search" placeholder="名前で検索">
 			</div>
 			<ul class="datalist">
-				{alldata.sort((a,b)=>{return (a.number - b.number)}).map((data) => (
+				{alldata.sort((a,b)=>{return (b.number - a.number)}).map((data) => (
 					<DataCard 
 						number={data.number}
 						name={data.name}
