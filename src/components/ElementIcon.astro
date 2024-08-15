@@ -1,0 +1,32 @@
+---
+interface Props {
+	element_id: number
+}
+
+const { element_id } = Astro.props;
+const elementNameList = {
+	0: "無",
+	1: "火",
+	2: "水",
+	3: "木",
+	4: "光",
+	5: "闇",
+	6: "全",
+}
+
+import { rootRelPath } from '../js/rootRelPath';
+---
+
+<img
+	src={rootRelPath(`/img/element/${element_id}.png`)}
+	alt={`${elementNameList[element_id]}属性`}
+	width="20" height="20"
+/>
+
+<style>
+	img{
+		aspect-ratio: 1 / 1;
+		height: calc(0.9lh - 4px);
+		width: auto;
+	}
+</style>

@@ -1,0 +1,469 @@
+---
+export async function getStaticPaths() {
+	const alldata = await Astro.glob('../../../public/data/monster/*.json');
+
+	return alldata.map((d) => {
+		return {
+			params: { No: d.number },
+			props: d
+		} 
+	});
+};
+
+import Layout from '../../layouts/Layout.astro';
+import SSDataTable from '../../components/SSDataTable.astro';
+import ElementIcon from '../../components/ElementIcon.astro';
+
+const data = Astro.props;
+const statusGageMaxValues = {
+	HP: 36000,
+	ATK: 62500,
+	SPD: 625,
+};
+---
+
+<Layout title=`${data.name}のSS倍率`>
+	<main>
+        <h1>{data.name}</h1>
+
+		<div>
+			<ul>
+				<li>No.{data.number}</li>
+				<li>{["無","火","水","木","光","闇"][data.element]}属性</li>
+				<li>種族：{data.tribe}</li>
+				<li>撃種：{data.hittype ? '反射' : '貫通' } {()=>{if(data.gageshot) return '《ゲージ》'}}</li>
+				<li>戦型：{["バランス","パワー","スピード","砲撃"][data.statustype]}型</li>
+			</ul>
+			<h2>ステータス</h2>
+			<div class="status">
+				<div class="status-bar-format-change">
+					<div class="status-bar-format-change-button is-active" data-type="0">+値表示</div>
+					<div class="status-bar-format-change-button" data-type="1">合計値</div>
+					{()=>{if(data.gageshot){
+						return <div class="status-bar-format-change-button" data-type="2">ゲージ込み</div>
+					}}}
+				</div>
+				<div class="status-bar" data-formattype="0">
+					<div class="status-HP">
+						<div class="status-label">HP</div>
+						<div class="status-gage">
+							<div class="status-gage-bar" style=`width:${(data.status.HP.base + data.status.HP.plus) / statusGageMaxValues.HP * 100}%` data-value={(data.status.HP.base + data.status.HP.plus)} data-maxvalue={statusGageMaxValues.HP}></div>
+							<div class="status-gage-value">
+								<span class="main-value">{data.status.HP.base}</span>
+								<span class="sub-value">+{data.status.HP.plus}</span>
+							</div>
+						</div>
+					</div>
+					<div class="status-ATK">
+						<div class="status-label">ATK</div>
+						<div class="status-gage">
+							<div class="status-gage-bar" style=`width:${(data.status.ATK.base + data.status.ATK.plus) / statusGageMaxValues.ATK * 100}%` data-value={(data.status.ATK.base + data.status.ATK.plus)} data-maxvalue={statusGageMaxValues.ATK}></div>
+							<div class="status-gage-value">
+								<span class="main-value">{data.status.ATK.base}</span>
+								<span class="sub-value">+{data.status.ATK.plus}</span>
+							</div>
+						</div>
+					</div>
+					<div class="status-SPD">
+						<div class="status-label">SPD</div>
+						<div class="status-gage">
+							<div class="status-gage-bar" style=`width:${(data.status.SPD.base + data.status.SPD.plus) / statusGageMaxValues.SPD * 100}%` data-value={(data.status.SPD.base + data.status.SPD.plus)} data-maxvalue={statusGageMaxValues.SPD}></div>
+							<div class="status-gage-value">
+								<span class="main-value">{data.status.SPD.base.toFixed(2)}</span>
+								<span class="sub-value">+{data.status.SPD.plus.toFixed(2)}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<h2>アビリティ・スキル</h2>
+			<div class="abilities">
+				<div class="ability">
+					{()=>{if(data.ability.base?.[0]){
+						return (
+						<div>
+							{(data.ability.base ?? []).map((e)=>(
+								<div>{e}</div>
+							))}
+						</div>
+						)
+					}}}
+					{()=>{if(data.ability.gage?.[0]){
+						return (
+						<div>
+							{(data.ability.gage ?? []).map((e)=>(
+								<div>{e}</div>
+							))}
+						</div>
+						)
+					}}}
+				</div>
+				{()=>{if(data.ability.connect || data.ability.shotskill || data.ability.assistskill){
+					return (
+					<div class="skill">
+					{()=>{if(data.ability.connect){
+						return (
+						<div class="connectskill">
+							<div class="skill-label">コネクトスキル</div>
+							<div class="skill-description">
+								{(data.ability.connect?.skill ?? []).map((e)=>(
+									<span>{e}</span>
+								))}
+							</div>
+							<div class="connect-condition">条件：{data.ability.connect?.condition}</div>
+							</div>
+						)
+					}}}
+					{()=>{if(data.ability.shotskill){
+						return (
+						<div class="shotskill">
+							<div class="skill-label">ショットスキル</div>
+							<div class="skill-description">{data.ability.shotskill}</div>
+						</div>
+						)
+					}}}
+					{()=>{if(data.ability.assistskill){
+						return (
+						<div class="assistskill">
+							<div class="skill-label">アシストスキル</div>
+							<div class="skill-description">{data.ability.assistskill}</div>
+						</div>
+						)
+					}}}
+					</div>
+					)
+				}}}
+			</div>
+			<h2>ストライクショット</h2>
+			<div class="strikeshot">
+				<h3 class="strikeshot-name">{data.strikeshot.name}</h3>
+				<div class="strikeshot-turn">ターン：{data.strikeshot.turn[0]}T→{data.strikeshot.turn[1]}T</div>
+				<div class="strikeshot-description">{data.strikeshot.description}</div>
+				<div class="strikeshot-data">
+					<table>
+						<caption>自強化倍率</caption>
+						<thead>
+							<tr>
+								<th></th>
+								<th>1段階目</th>
+								<th>2段階目</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th>攻撃</th>
+								<td>{data.strikeshot.data?.basis.attack[0] ?? ''}倍</td>
+								<td>{data.strikeshot.data?.basis.attack[1] ?? ''}倍</td>
+							</tr>
+							<tr>
+								<th>速度</th>
+								<td>{data.strikeshot.data?.basis.speed[0] ?? ''}倍</td>
+								<td>{data.strikeshot.data?.basis.speed[1] ?? ''}倍</td>
+							</tr>
+							<tr>
+								<th>減速率</th>
+								<td>{data.strikeshot.data?.basis?.deceleration?.[0] ?? ''}%</td>
+								<td>{data.strikeshot.data?.basis?.deceleration?.[1] ?? ''}%</td>
+							</tr>
+						</tbody>
+					</table>
+					{(data.strikeshot.data?.effects ?? []).map((effect) => (
+						<SSDataTable effect={effect}/>
+					))}
+				</div>
+			</div>
+			<h2>友情コンボ</h2>
+			<div class="bumpcombo">
+				<ul class="bumpcombo-list">
+					{(data.bumpcombo ?? []).map((bumpcombo) => (
+						<li>
+							<div class="flex-line">
+								<ElementIcon element_id={bumpcombo.element} />
+								<div class="bumpcombo-name">{bumpcombo.name}</div>
+							</div>
+							<div class="bumpcombo-power">威力 : {bumpcombo.power}</div>
+							<div class="bumpcombo-description">{bumpcombo.description}</div>
+						</li>
+					))}
+				</ul>
+			</div>
+		</div>
+
+		<script is:inline set:html={()=>{
+			const objectText = `{
+				HP: {
+				    base: ${Number(data.status.HP.base)},
+					plus: ${Number(data.status.HP.plus)}
+				},
+				ATK: {
+					base: ${Number(data.status.ATK.base)},
+					plus: ${Number(data.status.ATK.plus)}
+				},
+				SPD: {
+					base: ${Number(data.status.SPD.base)},
+					plus: ${Number(data.status.SPD.plus)}
+				}
+			}`;
+			return (`const charStatusValues = ${objectText.replace(/\s+/g,'')};`);
+		}}>
+		</script>
+		<script is:inline>
+			document.addEventListener('DOMContentLoaded', () => {
+				document.querySelectorAll('.status-bar-format-change-button').forEach((elem)=>{
+					elem.addEventListener('click', (event) => {
+						const formatType = Number(event.currentTarget.dataset.type);
+						document.querySelector('.status-bar').dataset.formattype = formatType;
+						document.querySelectorAll('.status-bar-format-change-button').forEach((button)=>{
+							if (button.dataset.type == formatType) {
+								button.classList.add('is-active');
+							}else{
+								button.classList.remove('is-active');
+							}
+						});
+						["HP","ATK","SPD"].forEach((k)=>{
+							const mainValue = (() => {
+								const sumValue = charStatusValues[k].base + charStatusValues[k].plus;
+								switch (formatType) {
+									case 0:
+										return charStatusValues[k].base;
+									case 1:
+										return sumValue;
+									case 2:
+										if (k === "ATK") {
+											return sumValue * 6 / 5;
+										}
+										return sumValue;
+								}
+							})();
+							document.querySelector(`.status-${k} .status-gage-value .main-value`).textContent = (() => {
+								if (k === "SPD") {
+									return mainValue.toFixed(2);
+								}
+								return mainValue;
+							})();
+						});
+						const gageValue = (() => {
+							const sumValue = charStatusValues.ATK.base + charStatusValues.ATK.plus;
+							if (formatType === 2) {
+								return sumValue * 6 / 5;
+							}
+							return sumValue;
+						})();
+						document.querySelector('.status-ATK .status-gage-bar').dataset.value = gageValue;
+					});
+				});
+			});
+		</script>
+		<script is:inline>
+			document.addEventListener('DOMContentLoaded', () => {
+				// ゲージ変更
+				const subject = document.querySelectorAll('.status-gage-bar');
+				subject.forEach((elem) => {
+					const callbackfn = function (records) {
+						const gageElement = records[0].target;
+						gageElement.style.width = `${(gageElement.dataset.value) / (gageElement.dataset.maxvalue) * 100}%`;
+					};
+					const observer = new MutationObserver(callbackfn);
+					observer.observe(elem, {attributes: true, attributeFilter: ["data-value"]});
+				});
+			});
+		</script>
+	</main>
+</Layout>
+
+<style>
+	h2 {
+		border-bottom: 2px solid #66f;
+		padding-inline: 0.8em;
+		padding-block: 0.2em;
+	}
+	h2 + div{
+		padding-inline: 1em;
+	}
+	.status-bar-format-change{
+		display: flex;
+		gap: 0.3em;
+		margin-block: 0.5em;
+	}
+	.status-bar-format-change-button{
+		padding: 0.15em 0.5em;
+		border-radius: 4px;
+		border: 2px solid #222;
+		background-color: #F0F0F0;
+		text-align: center;
+		font-size: 0.8em;
+		font-weight: bold;
+		cursor: pointer;
+		user-select: none;
+	}
+	.status-bar-format-change-button.is-active{
+		background-color: #222;
+		color: #F0F0F0;
+	}
+	.status-bar{
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+	.status-bar > div{
+		display: grid;
+		grid-template-columns: 4em 1fr;
+		gap: 4px;
+		background-color: #E6E6E6;
+	}
+	.status-label{
+		text-align: center;
+		color: #FAFAFA;
+		font-weight: bold;
+		background-color: #868686;
+	}
+	.status-gage{
+		position: relative;
+	}
+	.status-gage-bar{
+		position: absolute;
+		clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+		height: 100%;
+		text-wrap: nowrap;
+	}
+	.status-HP .status-gage-bar{
+		background-color: #6E6;
+	}
+	.status-ATK .status-gage-bar{
+		background-color: #FA3;
+	}
+	.status-SPD .status-gage-bar{
+		background-color: #5AF;
+	}
+	.status-gage-value{
+		position: absolute;
+		padding-inline: 0.5em;
+	}
+	.main-value{
+		font-size: 1em;
+	}
+	.sub-value{
+		font-size: 0.8em;
+	}
+	.status-bar:not([data-formattype="0"]) .sub-value{
+		display: none;
+	}
+	.ability{
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 6px;
+	}
+	.ability > div{
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: inherit;
+	}
+	.ability > div > div{
+		background-color: #4E4E4E;
+		color: #FFF;
+		padding-inline: 0.4em;
+		padding-block: 2px;
+		border-radius: 6px;
+	}
+	.skill{
+		margin-block: 1em;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.75em;
+	}
+	.skill > div{
+		/* border: 1px solid #111; */
+		background-color: #E3E3E3;
+		padding-inline: 0.5em;
+		padding-block: 0.25em;
+	}
+	.skill-label{
+		width: fit-content;
+		font-size: 0.85em;
+		font-weight: bold;
+		padding-inline: 0.2em;
+		border-bottom: 2px solid #666;
+	}
+	.skill-description{
+		font-size: 1em;
+		padding-inline: 0.5em;
+		margin-block: 0.25em;
+	}
+	.connect-condition{
+		font-size: 0.9em;
+		padding-inline: 0.8em;
+		margin-block: 0.25em;
+	}
+	.connectskill .skill-description span:not(:last-child)::after{
+		content: "/";
+		margin-inline: 0.1em;
+	}
+	.strikeshot-name{
+		border-left: 9px double #555;
+		padding-inline-start: 0.3em;
+		margin-block: 0.25em;
+	}
+	.strikeshot-turn{
+		padding-inline: 1em;
+		font-size: 0.9em;
+	}
+	.strikeshot-description{
+		padding: 0.3em;
+		font-size: 0.95em;
+		border: 1px solid #333;
+		border-radius: 4px;
+		margin-inline: 8px;
+	}
+	.strikeshot-data :global(table){
+		border-collapse: collapse;
+		text-align: center;
+		width: 100%;
+		table-layout: fixed;
+		margin-block: 1.6em;
+	}
+	.strikeshot-data :global(table caption){
+		font-weight: bold;
+		padding-block: 3px;
+	}
+	.strikeshot-data :global(table tr :first-child){
+		width: 24%
+	}
+	.strikeshot-data :global(table thead){
+		clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%, 0 6px);
+	}
+	.strikeshot-data :global(table thead th){
+		background-color: #0001;
+	}
+	.strikeshot-data :global(table tbody){
+		border-top: 1px solid #222;
+		border-bottom: 1px solid #222;
+	}
+	.strikeshot-data :global(table tr > *){
+		padding-block: 2px;
+	}
+	.bumpcombo-list{
+		display: grid;
+		grid-template-columns: 1fr;
+		list-style: none;
+		padding-inline: 0.5em;
+		gap: 10px;
+	}
+	.bumpcombo-list > li{
+		border-left: 0.25em solid #333;
+		border-bottom: 2px solid #333;
+		padding-inline: 0.5em;
+		padding-block: 0.25em;
+	}
+	.flex-line{
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
+	.bumpcombo-name{
+		font-weight: bold;
+	}
+	.bumpcombo-power,
+	.bumpcombo-description{
+		font-size: 0.9em;
+	}
+</style>

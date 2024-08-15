@@ -1,0 +1,43 @@
+---
+import { rootRelPath } from "../js/rootRelPath";
+---
+
+<header>
+    <div>
+        <div class="container">
+            <a href={rootRelPath('/')} class="sitetitle">モンストDB</a>
+            <nav class="fnavi">
+                <ul>
+                    <li><a href="https://www.monster-strike.com">公式サイト</a></li>
+                    <li><a href="https://www.youtube.com/@monsterstrike">公式YouTubeチャンネル</a></li>
+                </ul>
+            </nav>
+        </nav>
+    </div>
+</header>
+
+<style>
+    header > div{
+        padding-inline: 2em;
+        padding-block: 1.25em;
+    }
+    .container{
+        margin-inline: auto;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+    }
+    .sitetitle{
+        padding-inline: 0.25em;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 18px;
+        color: #111;
+    }
+    .fnavi ul{
+        display: contents;
+    }
+    .fnavi ul li{
+        display: contents;
+    }
+</style>

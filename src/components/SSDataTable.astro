@@ -1,0 +1,30 @@
+---
+interface Props {
+	effect: {
+		name: string;
+		properties: Array<any>;
+	};
+}
+
+const { effect } = Astro.props;
+---
+
+<table>
+	<caption>{effect.name}</caption>
+	<thead>
+		<tr>
+			<th></th>
+			<th>1段階目</th>
+			<th>2段階目</th>
+		</tr>
+	</thead>
+	<tbody>
+		{effect.properties.map((e) => (
+			<tr>
+				<th>{e.label}</th>
+				<td>{e.value?.[0] ?? ''}</td>
+				<td>{e.value?.[1] ?? ''}</td>
+			</tr>
+		))}
+	</tbody>
+</table>

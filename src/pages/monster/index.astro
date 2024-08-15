@@ -1,0 +1,66 @@
+---
+
+const alldata = await Astro.glob('../../../public/data/monster/*.json');
+
+import Layout from '../../layouts/Layout.astro';
+import DataCard from '../../components/DataCard.astro';
+---
+
+<Layout title=`データ一覧`>
+	<main>
+        <h1>データ一覧</h1>
+
+		<div class="data">
+			<div class="search">
+				<input type="search" placeholder="名前で検索">
+			</div>
+			<ul class="datalist">
+				{alldata.sort((a,b)=>{return (a.number - b.number)}).map((data) => (
+					<DataCard 
+						number={data.number}
+						name={data.name}
+					/>
+				))}
+			</ul>
+		</div>
+		<script is:inline data-searchjson={JSON.stringify(alldata.map((obj)=>{return {number: obj.number, name: obj.name}}))}>
+			document.addEventListener("DOMContentLoaded", () => {
+				const thisScript = document.querySelector("script[data-searchjson]");
+				const data = JSON.parse(thisScript.dataset.searchjson);
+				console.log(data);
+				const searchbox = document.querySelector('.search input[type="search"]');
+				searchbox.addEventListener("change",(event) => {
+					const query = String(event.currentTarget.value);
+					const result = data.filter((obj) => ~obj.name.indexOf(query));
+					const resultnumberlist = result.map((obj) => obj.number);
+					document.querySelectorAll(".data-card").forEach((elem) => {
+						if(resultnumberlist.includes(Number(elem.dataset.id))){
+							elem.classList.remove("is-hidden");
+						}else{
+							elem.classList.add("is-hidden");
+						}
+					});
+				});
+			});
+		</script>
+
+	</main>
+</Layout>
+
+<style>
+	.data{
+		padding-inline: 32px;
+	}
+	.search input[type="search"]{
+		display: block;
+		width: 100%;
+		font-size: 1em;
+		padding: 4px;
+	}
+	.datalist{
+		padding-inline: 0;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1em;
+	}
+</style>

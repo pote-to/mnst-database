@@ -1,0 +1,60 @@
+{
+	"name": "「苺プロ」所属役者 アクア",
+    "number": 7874,
+    "element": 5,
+    "tribe": "亜人",
+    "hittype": 1,
+    "gageshot": 1,
+    "statustype": 3,
+    "status": {
+        "HP": {
+            "base": 20577,
+            "plus": 4900
+        },
+        "ATK": {
+            "base": 23574,
+            "plus": 2200
+        },
+        "SPD": {
+            "base": 365.20,
+            "plus": 34.85
+        }
+    },
+    "ability": {
+        "base": ["超アンチダメージウォール","超マインスイーパーEL","ライトポジションキラーM","状態異常レジスト"],
+        "gage": ["アンチ魔法陣","アンチ転送壁"]
+    },
+    "strikeshot": {
+        "name": "必ず見つけ出してやる...",
+        "turn": [18,22],
+        "description": "スピードとパワーがアップし、壁にふれると稀にスピードがアップ&停止後に味方全員のスピードとパワーと防御力を一定期間アップし、SSターンを一定ターン短縮する",
+        "data": {
+            "basis": {
+                "attack": [],
+                "speed": [],
+                "deceleration": null
+            },
+            "effects": [{
+                "name": "",
+                "properties": [{
+                    "label":"",
+                    "value":["",""]
+                }]
+            }]
+        }
+    },
+    "bumpcombo": [
+        {
+            "name": "オートジャベリンバースト",
+            "element": 1,
+            "power": 199883,
+            "description": "ふれた味方に付与された貫通属性爆破弾が近くの敵を攻撃"
+        },
+        {
+            "name": "超強放電",
+            "element": 0,
+            "power": 378000,
+            "description": "敵を伝う毎に威力の上がる無属性の強力な電気攻撃"
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+{
+	"name": "想いを繋ぐ希望の聖剣 エクスカリバー",
+    "number": 7307,
+    "element": 1,
+    "tribe": "聖騎士",
+    "hittype": 1,
+    "gageshot": 1,
+    "statustype": 3,
+    "status": {
+        "HP": {
+            "base": 20587,
+            "plus": 4900
+        },
+        "ATK": {
+            "base": 22755,
+            "plus": 3925
+        },
+        "SPD": {
+            "base": 328.13,
+            "plus": 45.9
+        }
+    },
+    "ability": {
+        "base": ["超アンチワープ","アンチ魔法陣","ビットンブレイカー","バリアM"],
+        "gage": ["超アンチ減速壁","超SSターン短縮"]
+    },
+    "strikeshot": {
+        "name": "ライト・オブ・キングス",
+        "turn": [12,24],
+        "description": "壁にふれる毎にパワーがアップ&味方を動かし敵へ撃ちこむ",
+        "data": {
+            "basis": {
+                "attack": [1.8,2.6],
+                "speed": [4,8],
+                "deceleration": null
+            },
+            "effects": [{
+                "name": "壁ドン",
+                "properties": [{
+                    "label":"壁ドン",
+                    "value":["1+0.35n倍","1+0.70n倍"]
+                }]
+            }]
+        }
+    },
+    "bumpcombo": [
+        {
+            "name": "オートジャベリンバースト",
+            "element": 1,
+            "power": 199883,
+            "description": "ふれた味方に付与された貫通属性爆破弾が近くの敵を攻撃"
+        },
+        {
+            "name": "超強放電",
+            "element": 0,
+            "power": 378000,
+            "description": "敵を伝う毎に威力の上がる無属性の強力な電気攻撃"
+        }
+    ]
+}
