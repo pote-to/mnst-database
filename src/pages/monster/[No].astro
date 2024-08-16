@@ -81,7 +81,7 @@ const statusGageMaxValues = {
 				<div class="ability">
 					{()=>{if(data.ability.base?.[0]){
 						return (
-						<div>
+						<div class="base-ability-list">
 							{(data.ability.base ?? []).map((e)=>(
 								<div>{e}</div>
 							))}
@@ -90,7 +90,7 @@ const statusGageMaxValues = {
 					}}}
 					{()=>{if(data.ability.gage?.[0]){
 						return (
-						<div>
+						<div class="gage-ability-list">
 							{(data.ability.gage ?? []).map((e)=>(
 								<div>{e}</div>
 							))}
@@ -325,6 +325,7 @@ const statusGageMaxValues = {
 		clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
 		height: 100%;
 		text-wrap: nowrap;
+		transition-duration: 0.6s;
 	}
 	.status-HP .status-gage-bar{
 		background-color: #6E6;
@@ -338,12 +339,25 @@ const statusGageMaxValues = {
 	.status-gage-value{
 		position: absolute;
 		padding-inline: 0.5em;
+		display: flex;
+		align-items: baseline;
+		gap: 4px;
 	}
 	.main-value{
 		font-size: 1em;
 	}
 	.sub-value{
 		font-size: 0.8em;
+	}
+	.status-bar[data-formattype="2"] .status-ATK .status-gage-value::after{
+		content: "";
+		display: inline-block;
+		width: 1.2em;
+		aspect-ratio: 12 / 11;
+		background-image: url("../../img/gageshot/gageshot_icon.png");
+		background-repeat: no-repeat;
+		background-size: contain;
+		align-self: center;
 	}
 	.status-bar:not([data-formattype="0"]) .sub-value{
 		display: none;
@@ -364,6 +378,17 @@ const statusGageMaxValues = {
 		padding-inline: 0.4em;
 		padding-block: 2px;
 		border-radius: 6px;
+		display: flex;
+		align-items: center;
+		gap: 3px;
+	}
+	.gage-ability-list > div::after{
+		content: "";
+		width: 1.25em;
+		aspect-ratio: 12 / 11;
+		background-image: url("../../img/gageshot/gageshot_icon.png");
+		background-repeat: no-repeat;
+		background-size: contain;
 	}
 	.skill{
 		margin-block: 1em;

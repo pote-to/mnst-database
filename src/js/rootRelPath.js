@@ -1,6 +1,7 @@
 export function rootRelPath(input) {
+    // only root relative path
     if (!/^($|(\/(?![\/])))/.test(String(input))) {
-        throw new TypeError('Invalid URL: You can ');
+        throw new TypeError(`Invalid URL : "${String(input)}"`);
     }
     const BasePath = (import.meta.env.BASE_URL).replace(/\/$/, '');
     const Path = (function () {
