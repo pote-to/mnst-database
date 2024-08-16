@@ -1,0 +1,72 @@
+{
+	"name": "海上の魔法少女 鹿目まどかα",
+    "number": 7921,
+    "element": 2,
+    "tribe": "亜人",
+    "hittype": 1,
+    "gageshot": 1,
+    "statustype": 0,
+    "status": {
+        "HP": {
+            "base": 19930,
+            "plus": 4900
+        },
+        "ATK": {
+            "base": 24533,
+            "plus": 1750
+        },
+        "SPD": {
+            "base": 361.53,
+            "plus": 31.45
+        }
+    },
+    "ability": {
+        "base": ["超アンチ重力バリア","超アンチダメージウォール","火属性キラーM","バリア"],
+        "gage": ["アンチ魔法陣","アンチ転送壁","状態異常回復"]
+    },
+    "strikeshot": {
+        "name": "目一杯楽しまないとね",
+        "turn": [16,24],
+        "description": "味方を動かし敵へ撃ちこむ＆停止後に最初にふれた敵に無数の光の矢を放つ",
+        "data": {
+            "basis": {
+                "attack": [1.4,2.0],
+                "speed": [1.5,5],
+                "deceleration": null
+            },
+            "effects": [{
+                "name": "大号令",
+                "properties": [{
+                    "label":"攻撃",
+                    "value":["1.2倍","1.5倍"]
+                },{
+                    "label":"速度",
+                    "value":["1.0倍","9.0倍"]
+                }]
+            },{
+                "name": "光の矢",
+                "properties": [{
+                    "label":"無属性攻撃",
+                    "value":["0.044倍*60発","0.092倍*60発"]
+                },{
+                    "label":"割合",
+                    "value":["2.5%*5発","2.5%*8発"]
+                }]
+            }]
+        }
+    },
+    "bumpcombo": [
+        {
+            "name": "ルミナスレイ",
+            "element": 2,
+            "power": 168750,
+            "description": "ふれた壁からルミナスレイで攻撃"
+        },
+        {
+            "name": "超絶分裂貫通衝撃波 3",
+            "element": 2,
+            "power": 38571,
+            "description": "壁に当たると分裂し、複数回反射する超強力な属性貫通衝撃波で攻撃"
+        }
+    ]
+}
