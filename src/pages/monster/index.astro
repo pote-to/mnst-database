@@ -23,27 +23,55 @@ import DataCard from '../../components/DataCard.astro';
 				))}
 			</ul>
 		</div>
-		<script is:inline data-searchjson={JSON.stringify(alldata.map((obj)=>{return {number: obj.number, name: obj.name}}))}>
-			document.addEventListener("DOMContentLoaded", () => {
-				const thisScript = document.querySelector("script[data-searchjson]");
-				const data = JSON.parse(thisScript.dataset.searchjson);
-				console.log(data);
+		<script is:inline data-searchjson={JSON.stringify(alldata.map((obj)=>{return {number: obj.number, name: obj.name}}))}></script>
+		<script is:inline>
+			function renderMonsterDataList() {
+				const data = JSON.parse(document.querySelector("script[data-searchjson]").dataset.searchjson);
 				const searchbox = document.querySelector('.search input[type="search"]');
-				searchbox.addEventListener("change",(event) => {
-					const query = String(event.currentTarget.value);
-					const result = data.filter((obj) => ~obj.name.indexOf(query));
-					const resultnumberlist = result.map((obj) => obj.number);
-					document.querySelectorAll(".data-card").forEach((elem) => {
-						if(resultnumberlist.includes(Number(elem.dataset.id))){
-							elem.classList.remove("is-hidden");
-						}else{
-							elem.classList.add("is-hidden");
-						}
-					});
+				const query = String(searchbox.value);
+				const result = data.filter((obj) => ~obj.name.indexOf(query));
+				const resultnumberlist = result.map((obj) => obj.number);
+				// View
+				document.querySelectorAll(".data-card").forEach((elem) => {
+					if(resultnumberlist.includes(Number(elem.dataset.id))){
+						elem.classList.remove("is-hidden");
+					}else{
+						elem.classList.add("is-hidden");
+					}
 				});
+			}
+			function syncQueryParamsToInput() {
+				const query = (new URLSearchParams(location.search)).get("q");
+				const searchbox = document.querySelector('.search input[type="search"]');
+				searchbox.value = query;
+			}
+		</script>
+		<script is:inline>
+			document.addEventListener("DOMContentLoaded", () => {
+				const searchbox = document.querySelector('.search input[type="search"]');
+				searchbox.addEventListener("change", () => {
+					// History
+					const newQuery = String(searchbox.value);
+					const queryParams = new URLSearchParams(location.search);
+					if (!(queryParams.has("q", newQuery))) {
+						history.pushState({q: newQuery}, null, `?q=${newQuery}`);
+						console.log(`pushstate : "${newQuery}"`);
+					}
+					// Rendering
+					renderMonsterDataList();
+				});
+				syncQueryParamsToInput();
+				renderMonsterDataList();
+			});
+			window.addEventListener("popstate", (e) => {
+				console.log(`popstate : "${e.state?.q}"`);
+				syncQueryParamsToInput();
+				renderMonsterDataList();
+			});
+			window.addEventListener("pageshow", (e) => {
+				console.log(`is-persisted : ${e.persisted.toString()} (${Date.now()})`);
 			});
 		</script>
-
 	</main>
 </Layout>
 
