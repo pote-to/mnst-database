@@ -3,16 +3,30 @@
 ---
 
 <footer>
-    <div>
-        <p>“モンスターストライク”、“モンスト”は、株式会社MIXIの商標または登録商標です。</p>
-        <small style="float: right;">env : { import.meta.env.MODE }</small>
-    </div>
+    <div class="credit">Created by <a href="https://x.com/ATLAS_XD">POTETO</a></div>
+    <div class="environment">env - { import.meta.env.MODE }</div>
 </footer>
 
 <style>
-    footer > div{
-        padding-inline: 2em;
-        padding-block: 0.75em;
-        border-top: 1px solid #888;
+    footer{
+        background-color: #263240;
+        color: #FFF;
+        font-family: Arial;
+        padding-block: 0.8em;
+        position: relative;
+    }
+    .credit{
+        font-weight: bold;
+        text-align: center;
+    }
+    .credit a:any-link{
+        /* twitter color code  */
+        color: #1DA1F2;
+    }
+    .environment{
+        font-size: 0.65em;
+        position: absolute;
+        right: 2em;
+        bottom: 1px;
     }
 </style>
