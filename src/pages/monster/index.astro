@@ -11,39 +11,106 @@ import DataCard from '../../components/DataCard.astro';
         <h1>データ一覧</h1>
 
 		<div class="data">
-			<div class="search">
+			<div class="search" role="search">
+				<div class="search-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
+						<path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+					</svg>
+				</div>
 				<input type="search" placeholder="名前で検索">
 			</div>
-			<ul class="datalist">
+			<div class="message-box">
+				<p class="message-text"></p>
+			</div>
+			<div class="data-table">
+				<div class="data-table-header">
+					<div class="data-stats">
+						<div><span class="data-stats-count"></span> / {alldata.length}件</div>
+					</div>
+					<div class="data-progress">
+						<div class="data-progressbar"></div>
+					</div>
+				</div>
+				<ul class="datalist">
 				{alldata.sort((a,b)=>{return (b.number - a.number)}).map((data) => (
-					<DataCard 
-						number={data.number}
-						name={data.name}
-					/>
+					<li class="data-card" data-id={data.number}>
+						<a href={(`/mnst-database/monster/${data.number}/`)}>
+							<div>
+								<div class="monster-number">No.{data.number}</div>
+								<div class="monster-name">{data.name}</div>
+							</div>
+						</a>
+					</li>
 				))}
-			</ul>
+				</ul>
+				<div class="data-table-footer"></div>
+			</div>
 		</div>
-		<script is:inline data-searchjson={JSON.stringify(alldata.map((obj)=>{return {number: obj.number, name: obj.name}}))}>
-			document.addEventListener("DOMContentLoaded", () => {
-				const thisScript = document.querySelector("script[data-searchjson]");
-				const data = JSON.parse(thisScript.dataset.searchjson);
-				console.log(data);
+		<script is:inline data-searchjson={JSON.stringify(alldata.map((obj)=>{return {number: obj.number, name: obj.name}}))}></script>
+		<script is:inline>
+			function renderMonsterDataList() {
+				const data = JSON.parse(document.querySelector("script[data-searchjson]").dataset.searchjson);
 				const searchbox = document.querySelector('.search input[type="search"]');
-				searchbox.addEventListener("change",(event) => {
-					const query = String(event.currentTarget.value);
-					const result = data.filter((obj) => ~obj.name.indexOf(query));
-					const resultnumberlist = result.map((obj) => obj.number);
-					document.querySelectorAll(".data-card").forEach((elem) => {
-						if(resultnumberlist.includes(Number(elem.dataset.id))){
-							elem.classList.remove("is-hidden");
+				const query = String(searchbox.value);
+				const result = data.filter((obj) => ~obj.name.indexOf(query));
+				const resultnumberlist = result.map((obj) => obj.number);
+				// Message
+				{
+					const messageTextElement = document.querySelector(".message-text");
+					messageTextElement.textContent = (()=>{
+						if (!resultnumberlist.length) {
+							return "検索条件に一致するデータはありません。";
 						}else{
-							elem.classList.add("is-hidden");
+							return "";
 						}
-					});
+					})();
+				}
+				// Stats
+				{
+					const statsCount = resultnumberlist.length;
+					document.querySelector(".data-stats-count").textContent = statsCount;
+				}
+				// View
+				document.querySelectorAll(".data-card").forEach((elem) => {
+					if(resultnumberlist.includes(Number(elem.dataset.id))){
+						elem.classList.remove("is-hidden");
+					}else{
+						elem.classList.add("is-hidden");
+					}
 				});
+			}
+			function syncQueryParamsToInput() {
+				const query = (new URLSearchParams(location.search)).get("q");
+				const searchbox = document.querySelector('.search input[type="search"]');
+				searchbox.value = query;
+			}
+		</script>
+		<script is:inline>
+			document.addEventListener("DOMContentLoaded", () => {
+				const searchbox = document.querySelector('.search input[type="search"]');
+				searchbox.addEventListener("change", () => {
+					// History
+					const newQuery = String(searchbox.value);
+					const queryParams = new URLSearchParams(location.search);
+					if (!(queryParams.has("q", newQuery))) {
+						history.pushState({q: newQuery}, null, `?q=${newQuery}`);
+						console.log(`pushstate : "${newQuery}"`);
+					}
+					// Rendering
+					renderMonsterDataList();
+				});
+				syncQueryParamsToInput();
+				renderMonsterDataList();
+			});
+			window.addEventListener("popstate", (e) => {
+				console.log(`popstate : "${e.state?.q}"`);
+				syncQueryParamsToInput();
+				renderMonsterDataList();
+			});
+			window.addEventListener("pageshow", (e) => {
+				console.log(`is-persisted : ${e.persisted.toString()} (${Date.now()})`);
 			});
 		</script>
-
 	</main>
 </Layout>
 
@@ -51,16 +118,121 @@ import DataCard from '../../components/DataCard.astro';
 	.data{
 		padding-inline: 32px;
 	}
+	.search{
+		display: grid;
+		grid-template-columns: auto 1fr;
+		width: 100%;
+		border-radius: 8px;
+		box-shadow: 0px 1px 4px 0px #20212447;
+		background-color: #FFF;
+	}
+	/* .search:focus-within{
+		outline: #111 auto 1px;
+	} */
+	.search-icon{
+		display: grid;
+		place-items: center;
+		padding-left: 0.5em;
+		background: none;
+	}
+	.search-icon svg{
+		fill: #888;
+	}
 	.search input[type="search"]{
 		display: block;
-		width: 100%;
+		padding-inline: 0.5em;
+		padding-block: 0.4em;
+		border: none;
 		font-size: 1em;
-		padding: 4px;
+		border-radius: inherit;
+		background: none;
+		outline: none;
+	}
+	.search input[type="search"]::-webkit-search-cancel-button {
+		cursor: pointer;
+	}
+	.message-box{
+		background-color: #FFE01190;
+		padding-inline: 0.6em;
+		padding-block: 0.15em;
+		border-radius: 4px;
+		margin-block: 1.0em;
+	}
+	.message-box:has(.message-text:empty){
+		display: none;
+	}
+	.message-text{
+		margin: 0;
+	}
+	.message-text::before{
+		content: "⚠";
+		padding-inline: 0.2em;
+	}
+</style>
+<style>
+	.data-table{
+		margin-block: 1em;
+		background-color: #FFF;
+		font-size: 0.85em;
+		border-radius: 6px;
+		box-shadow: 0px 1px 4px 0px #20212447;
+	}
+	.data-table-header{
+		padding-block: 4px;
+		padding-inline: 0.4em;
+	}
+	.data-stats{
+		text-align: right;
+		padding-right: 0.8em;
+	}
+	.data-progress{
+		position: relative;
+	}
+	.data-progressbar{
+		display: none;
+		position: absolute;
+		border-bottom: 2px solid #1976D2;
+		width: 15%;
 	}
 	.datalist{
-		padding-inline: 0;
 		display: grid;
 		grid-template-columns: 1fr;
-		gap: 1em;
+		gap: 0;
+		margin-block: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.data-card{
+		display: flex;
+		padding: 1px;
+		font-size: 1em;
+		border-top: 1px solid #0004;
+	}
+	.is-hidden{
+		display: none;
+	}
+	.data-card > a {
+		width: 100%;
+		text-decoration: none;
+		line-height: 1.4;
+		padding-inline: 1.2em;
+		padding-block: 0.6em;
+		border-radius: 8px;
+		color: #000;
+	}
+	.monster-number{
+		font-size: 0.85em;
+	}
+	.monster-name{
+		font-weight: bold;
+	}
+	.data-table-footer{
+		height: 8px;
+		border-top: 1px solid #0004;
+	}
+	@media (hover: hover) {
+		.data-card:hover{
+			background-color: #F2F2F2;
+		}
 	}
 </style>
