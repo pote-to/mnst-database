@@ -25,22 +25,18 @@ import DataCard from '../../components/DataCard.astro';
 			<div class="data-table">
 				<div class="data-table-header">
 					<div class="data-stats">
-						<div><span class="data-stats-count"></span> / {alldata.length}件</div>
+						<div><span class="data-stats-count">{alldata.length}</span>件</div>
 					</div>
-					<div class="data-progress">
+					<div class="data-progressbar">
 						<div class="data-progressbar"></div>
 					</div>
 				</div>
 				<ul class="datalist">
 				{alldata.sort((a,b)=>{return (b.number - a.number)}).map((data) => (
-					<li class="data-card" data-id={data.number}>
-						<a href={(`/mnst-database/monster/${data.number}/`)}>
-							<div>
-								<div class="monster-number">No.{data.number}</div>
-								<div class="monster-name">{data.name}</div>
-							</div>
-						</a>
-					</li>
+					<DataCard 
+						number={data.number}
+						name={data.name}
+					/>
 				))}
 				</ul>
 				<div class="data-table-footer"></div>
@@ -202,37 +198,8 @@ import DataCard from '../../components/DataCard.astro';
 		padding: 0;
 		list-style: none;
 	}
-	.data-card{
-		display: flex;
-		padding: 1px;
-		font-size: 1em;
-		border-top: 1px solid #0004;
-	}
-	.is-hidden{
-		display: none;
-	}
-	.data-card > a {
-		width: 100%;
-		text-decoration: none;
-		line-height: 1.4;
-		padding-inline: 1.2em;
-		padding-block: 0.6em;
-		border-radius: 8px;
-		color: #000;
-	}
-	.monster-number{
-		font-size: 0.85em;
-	}
-	.monster-name{
-		font-weight: bold;
-	}
 	.data-table-footer{
 		height: 8px;
 		border-top: 1px solid #0004;
-	}
-	@media (hover: hover) {
-		.data-card:hover{
-			background-color: #F2F2F2;
-		}
 	}
 </style>
