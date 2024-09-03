@@ -44,12 +44,16 @@ import DataCard from '../../components/DataCard.astro';
 		</div>
 		<script is:inline data-searchjson={JSON.stringify(alldata.map((obj)=>{return {number: obj.number, name: obj.name}}))}></script>
 		<script is:inline>
-			function renderMonsterDataList() {
+			function filterMonsterDataList(query) {
 				const data = JSON.parse(document.querySelector("script[data-searchjson]").dataset.searchjson);
+				const filteredData = data.filter((obj) => ~obj.name.indexOf(query));
+				const filteredNumberList = filteredData.map((obj) => obj.number);
+				return filteredNumberList;
+			}
+			function renderMonsterDataList() {
 				const searchbox = document.querySelector('.search input[type="search"]');
 				const query = String(searchbox.value);
-				const result = data.filter((obj) => ~obj.name.indexOf(query));
-				const resultnumberlist = result.map((obj) => obj.number);
+				const resultnumberlist = filterMonsterDataList(query);
 				// Message
 				{
 					const messageTextElement = document.querySelector(".message-text");
