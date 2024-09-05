@@ -160,11 +160,15 @@ const statusGageMaxValues = {
 								<td>{data.strikeshot.data?.basis.speed[0] ?? ''}倍</td>
 								<td>{data.strikeshot.data?.basis.speed[1] ?? ''}倍</td>
 							</tr>
-							<tr>
-								<th>減速率</th>
-								<td>{data.strikeshot.data?.basis?.deceleration?.[0] ?? ''}%</td>
-								<td>{data.strikeshot.data?.basis?.deceleration?.[1] ?? ''}%</td>
-							</tr>
+							{()=>{if (Array.isArray(data.strikeshot.data?.basis?.deceleration)) {
+								return(
+								<tr>
+									<th>減速率</th>
+									<td>{data.strikeshot.data.basis.deceleration[0] ?? ''}%</td>
+									<td>{data.strikeshot.data.basis.deceleration[1] ?? ''}%</td>
+								</tr>
+								)
+							}}}
 						</tbody>
 					</table>
 					{(data.strikeshot.data?.effects ?? []).map((effect) => (
