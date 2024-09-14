@@ -1,0 +1,66 @@
+{
+	"name": "巨人殺し アーサー・ペンシルゴン",
+    "number": 7973,
+    "element": 5,
+    "tribe": "亜人",
+    "hittype": 1,
+    "gageshot": 1,
+    "statustype": 0,
+    "status": {
+        "HP": {
+            "base": 20533,
+            "plus": 4900
+        },
+        "ATK": {
+            "base": 24617,
+            "plus": 2300
+        },
+        "SPD": {
+            "base": 353.23,
+            "plus": 34.00
+        }
+    },
+    "ability": {
+        "base": ["超アンチワープ","アンチ減速壁","状態異常回復","超レーザーストップ"],
+        "gage": ["アンチブロック","SSターンチャージ"]
+    },
+    "strikeshot": {
+        "name": "乾坤一擲",
+        "turn": [16,24],
+        "description": "スピードとパワーがアップ＆停止後に最初にふれた敵を乾坤一擲で攻撃",
+        "data": {
+            "basis": {
+                "attack": [1.2,1.5],
+                "speed": [8,10],
+                "deceleration": null
+            },
+            "effects": [{
+                "name": "乾坤一擲",
+                "properties": [{
+                    "label":"割合",
+                    "value":["15+10a","25+15a%"]
+                },{
+                    "label":"最低保証",
+                    "value":["150万","250万"]
+                },{
+                    "label":"a",
+                    "value":["(1+残HP割合)","※ショット時"]
+                }]
+            }]
+        }
+    },
+    "bumpcombo": [
+        {
+            "name": "貫通ターゲットロックオン衝撃波 8",
+            "element": 5,
+            "power": 141750,
+            "description": "近くの敵から順番に8発の属性貫通衝撃波を放つ"
+        },
+        {
+            "name": "超絶中距離拡散弾 5",
+            "element": 5,
+            "power": 151146,
+            "description": "16方向に超強力な属性弾を5発ずつ乱れ撃ち"
+        }
+    ]
+}

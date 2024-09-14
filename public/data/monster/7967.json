@@ -1,0 +1,75 @@
+{
+	"name": "クソゲーハンター サンラク",
+    "number": 7967,
+    "element": 2,
+    "tribe": "亜人",
+    "hittype": 1,
+    "gageshot": 1,
+    "statustype": 2,
+    "status": {
+        "HP": {
+            "base": 14410,
+            "plus": 4900
+        },
+        "ATK": {
+            "base": 26971,
+            "plus": 2525
+        },
+        "SPD": {
+            "base": 474.87,
+            "plus": 45.90
+        }
+    },
+    "ability": {
+        "base": ["超アンチ重力バリア","アンチワープ","超マインスイーパーM"],
+        "gage": ["アンチブロック","ファーストキラーM"]
+    },
+    "strikeshot": {
+        "name": "致命の三日月",
+        "turn": [20,24],
+        "description": "スピードとパワーがアップし、ふれた敵の弱点を一定期間、すべて出現させる＆停止後にHPを1/3まで減らし致命の三日月で攻撃",
+        "data": {
+            "basis": {
+                "attack": [1.5,2.0],
+                "speed": [10,15],
+                "deceleration": null
+            },
+            "effects": [{
+                "name": "弱点露出",
+                "properties": [{
+                    "label":"継続",
+                    "value":["3T","3T"]
+                }]
+            },{
+                "name": "致命の三日月",
+                "properties": [{
+                    "label":"直殴り",
+                    "value":["4倍","6倍"]
+                },{
+                    "label":"割合",
+                    "value":["17+10a%","22+16a%"]
+                },{
+                    "label":"最低保証",
+                    "value":["170万","220万"]
+                },{
+                    "label":"a",
+                    "value":["(1+残HP割合)","停止時"]
+                }]
+            }]
+        }
+    },
+    "bumpcombo": [
+        {
+            "name": "超強ハイクロススティンガー",
+            "element": 2,
+            "power": 45000,
+            "description": "左右に展開する強力な貫通属性弾で近くの敵を攻撃"
+        },
+        {
+            "name": "爆絶斬撃",
+            "element": 0,
+            "power": 14940,
+            "description": "強烈な鋭い刃がランダムで敵を攻撃"
+        }
+    ]
+}
