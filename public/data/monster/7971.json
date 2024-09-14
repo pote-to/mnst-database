@@ -1,0 +1,63 @@
+{
+	"name": "プロゲーマー オイカッツォ",
+    "number": 7971,
+    "element": 4,
+    "tribe": "亜人",
+    "hittype": 0,
+    "gageshot": 1,
+    "statustype": 0,
+    "status": {
+        "HP": {
+            "base": 20402,
+            "plus": 4900
+        },
+        "ATK": {
+            "base": 23144,
+            "plus": 2150
+        },
+        "SPD": {
+            "base": 346.30,
+            "plus": 33.15
+        }
+    },
+    "ability": {
+        "base": ["マインスイーパー","アンチ魔法陣","超アンチ転送壁","弱点キラー"],
+        "gage": ["超アンチワープ","ダッシュM"]
+    },
+    "strikeshot": {
+        "name": "三色混合 拳気・【過重黒衝】",
+        "turn": [20,24],
+        "description": "ふれた最初の敵を三色混合 拳気・【過重黒衝】で攻撃",
+        "data": {
+            "basis": {
+                "attack": [1,1],
+                "speed": [1,1],
+                "deceleration": null
+            },
+            "effects": [{
+                "name": "三色混合 拳気・【過重黒衝】",
+                "properties": [{
+                    "label":"打撃",
+                    "value":["5+4/n倍","9+5/n倍"]
+                },{
+                    "label":"n",
+                    "value":["画面内の敵数",""]
+                }]
+            }]
+        }
+    },
+    "bumpcombo": [
+        {
+            "name": "チェイススフィア",
+            "element": 2,
+            "power": 198450,
+            "description": "ふれた味方を追う属性弾で攻撃"
+        },
+        {
+            "name": "超絶中距離毒拡散弾 9",
+            "element": 0,
+            "power": 75573,
+            "description": "16方向に超強力な中距離毒拡散弾を9発ずつ乱れ撃ち"
+        }
+    ]
+}
