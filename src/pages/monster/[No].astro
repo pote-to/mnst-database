@@ -24,11 +24,11 @@ const statusGageMaxValues = {
 
 <Layout title=`${data.name}のSS倍率`>
 	<main>
+		<div class="number">No.{data.number}</div>
         <h1>{data.name}</h1>
 
 		<div>
 			<ul>
-				<li>No.{data.number}</li>
 				<li>{["無","火","水","木","光","闇"][data.element]}属性</li>
 				<li>種族：{data.tribe}</li>
 				<li>撃種：{data.hittype ? '反射' : '貫通' } {()=>{if(data.gageshot) return '《ゲージ》'}}</li>
@@ -276,7 +276,12 @@ const statusGageMaxValues = {
 </Layout>
 
 <style>
-	h2 {
+	h1{
+		font-size: 1.8em;
+		margin-block: 0.1em;
+		line-height: 1em;
+	}
+	h2{
 		border-bottom: 2px solid #66f;
 		padding-inline: 0.8em;
 		padding-block: 0.2em;
@@ -284,6 +289,15 @@ const statusGageMaxValues = {
 	h2 + div{
 		padding-inline: 1em;
 	}
+</style>
+<style>
+	.number{
+		font-size: 0.95em;
+		font-weight: bold;
+	}
+</style>
+<style>
+	/* status */
 	.status-bar-format-change{
 		display: flex;
 		gap: 0.3em;
@@ -366,6 +380,9 @@ const statusGageMaxValues = {
 	.status-bar:not([data-formattype="0"]) .sub-value{
 		display: none;
 	}
+</style>
+<style>
+	/* ability */
 	.ability{
 		display: grid;
 		grid-template-columns: 1fr;
@@ -427,6 +444,9 @@ const statusGageMaxValues = {
 		content: "/";
 		margin-inline: 0.1em;
 	}
+</style>
+<style>
+	/* strikeshot */
 	.strikeshot-name{
 		border-left: 9px double #555;
 		padding-inline-start: 0.3em;
@@ -470,6 +490,9 @@ const statusGageMaxValues = {
 	.strikeshot-data :global(table tr > *){
 		padding-block: 2px;
 	}
+</style>
+<style>
+	/* bumpcombo */
 	.bumpcombo-list{
 		display: grid;
 		grid-template-columns: 1fr;
