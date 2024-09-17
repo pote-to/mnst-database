@@ -3,23 +3,23 @@ import { rootRelPath } from "../js/rootRelPath";
 ---
 
 <header>
-    <div>
-        <div class="container">
-            <a href={rootRelPath('/')} class="sitetitle">モンストDB</a>
-            <nav class="fnavi">
-                <ul>
-                    <li><a href="https://www.monster-strike.com">公式サイト</a></li>
-                    <li><a href="https://www.youtube.com/@monsterstrike">公式YouTubeチャンネル</a></li>
-                </ul>
-            </nav>
+    <div class="container">
+        <a href={rootRelPath('/')} class="site-title">モンストDB</a>
+        <nav class="fnavi">
+            <ul>
+                <li><a href="https://www.monster-strike.com">公式サイト</a></li>
+                <li><a href="https://www.youtube.com/@monsterstrike">公式YouTubeチャンネル</a></li>
+            </ul>
         </nav>
     </div>
 </header>
 
 <style>
-    header > div{
+    header{
         padding-inline: 2em;
         padding-block: 1.25em;
+        background-color: #F3F7FB;
+        border-bottom: 2px solid #D2D9DD;
     }
     .container{
         margin-inline: auto;
@@ -27,16 +27,14 @@ import { rootRelPath } from "../js/rootRelPath";
         justify-content: space-between;
         flex-wrap: nowrap;
     }
-    .sitetitle{
+    .site-title{
         padding-inline: 0.25em;
         text-decoration: none;
         font-weight: bold;
         font-size: 18px;
         color: #111;
     }
-    .fnavi ul{
-        display: contents;
-    }
+    .fnavi ul,
     .fnavi ul li{
         display: contents;
     }
