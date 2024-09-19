@@ -30,26 +30,31 @@ import { rootRelPath } from '../js/rootRelPath';
 </html>
 <style is:global define:vars={{ gageshotIconPath: `url(${rootRelPath('/img/gageshot/gageshot_icon.png')})` }} />
 <style is:global>
-	:root {	
+	:root{
 	}
-	html {
+	html{
 		/* font-family: system-ui, sans-serif; */
 		font-family: "Roboto" ,"Arial", sans-serif;
+		font-size: 16px;
 	}
-	body {
+	body{
 		margin: 0;
 		padding: 0;
 		background-color: #F9F9F9;
 		color: #000;
-		font-size: 20px;
 		line-height: 1.6;
 	}
-	main {
+	main{
 		margin: auto;
 		padding-inline: 1rem;
 		padding-block: 1rem 2rem;
 		width: 860px;
 		max-width: 100%;
 		box-sizing: border-box;
+	}
+	@media (min-width:768px) {
+		html{
+			font-size: 18px;
+		}
 	}
 </style>
