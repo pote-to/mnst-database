@@ -18,7 +18,7 @@ import { rootRelPath } from "../js/rootRelPath";
     header{
         padding-inline: 2em;
         padding-block: 1.25em;
-        background-color: #F3F7FB;
+        background-color: #F2F7FD;
         border-bottom: 2px solid #D2D9DD;
     }
     .container{
@@ -31,11 +31,19 @@ import { rootRelPath } from "../js/rootRelPath";
         padding-inline: 0.25em;
         text-decoration: none;
         font-weight: bold;
-        font-size: 18px;
+        font-size: 1em;
         color: #111;
     }
     .fnavi ul,
     .fnavi ul li{
         display: contents;
     }
+	@media (max-width:767.98px) {
+        .container{
+            font-size: 1.15em;
+        }
+		.fnavi{
+            display: none;
+        }
+	}
 </style>
