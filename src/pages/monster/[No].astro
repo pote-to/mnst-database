@@ -29,7 +29,7 @@ const statusGageMaxValues = {
 
 		<div>
 			<ul>
-				<li>{["無","火","水","木","光","闇"][data.element]}属性</li>
+				<li>属性：{["無","火","水","木","光","闇"][data.element]}</li>
 				<li>種族：{data.tribe}</li>
 				<li>撃種：{data.hittype ? '反射' : '貫通' } {()=>{if(data.gageshot) return '《ゲージ》'}}</li>
 				<li>戦型：{["バランス","パワー","スピード","砲撃"][data.statustype]}型</li>
