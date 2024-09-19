@@ -7,15 +7,13 @@ import { rootRelPath } from '../js/rootRelPath';
 <Layout title="TOP">
 	<main>
 		<h1>モンストDBへようこそ</h1>
-		<p class="instructions">
-			各キャラクターのSSの仕様、倍率など、独自に調べたものをまとめています。
-		</p>
+		<p class="instructions">各キャラクターのSSの仕様、倍率など、独自に調べたものをまとめています。</p>
 		<div>
 			<p><a href={rootRelPath('/monster/')}>データ一覧</a></p>
 		</div>
-		<div>
-			<p>公式サイト一覧</p>
-			<ul role="list" class="link-card-grid">
+		<div class="official-websites">
+			<div>公式サイト</div>
+			<ul class="link-card-grid">
 				<LinkCard href="https://www.monster-strike.com" title="モンスト公式サイト"/>
 				<LinkCard href="https://www.youtube.com/@monsterstrike" title="モンスト公式YouTubeチャンネル"/>
 				<LinkCard href="https://x.com/monst_mixi" title="モンスト公式X(Twitter)"/>
@@ -27,22 +25,31 @@ import { rootRelPath } from '../js/rootRelPath';
 
 <style>
 	h1 {
-		font-size: 4rem;
-		font-weight: 700;
-		line-height: 1;
+		font-size: 3.5em;
+		font-weight: bold;
+		line-height: 1.0;
 		text-align: center;
-		margin-bottom: 1em;
+		margin-block: 0.8em;
 	}
 	.instructions {
-		margin-block: 2rem;
-		padding: 1.5rem;
+		margin-block: 2em;
+		padding: 1.5em;
 		border-radius: 8px;
 		background-color: #D0E8F8;
+	}
+	.official-websites {
+		padding-inline: 1px;
+	}
+	.official-websites > div {
+		margin-block: 0.3em;
+		font-weight: bold;
+		font-size: 1.05em;
+		padding-inline: 0.4em;
 	}
 	.link-card-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(max(40%, min(32ch, 100%)), 1fr));
-		gap: 2rem;
+		gap: 1em 1.6em;
 		padding: 0;
 		margin-block: 1em;
 	}
