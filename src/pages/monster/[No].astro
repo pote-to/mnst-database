@@ -29,7 +29,7 @@ const statusGageMaxValues = {
 
 		<div>
 			<ul>
-				<li>{["無","火","水","木","光","闇"][data.element]}属性</li>
+				<li>属性：{["無","火","水","木","光","闇"][data.element]}</li>
 				<li>種族：{data.tribe}</li>
 				<li>撃種：{data.hittype ? '反射' : '貫通' } {()=>{if(data.gageshot) return '《ゲージ》'}}</li>
 				<li>戦型：{["バランス","パワー","スピード","砲撃"][data.statustype]}型</li>
@@ -37,10 +37,10 @@ const statusGageMaxValues = {
 			<h2>ステータス</h2>
 			<div class="status">
 				<div class="status-bar-format-change">
-					<div class="status-bar-format-change-button is-active" data-type="0">+値表示</div>
-					<div class="status-bar-format-change-button" data-type="1">合計値</div>
+					<button class="status-bar-format-change-button is-active" data-type="0">+値表示</button>
+					<button class="status-bar-format-change-button" data-type="1">合計値</button>
 					{()=>{if(data.gageshot){
-						return <div class="status-bar-format-change-button" data-type="2">ゲージ込み</div>
+						return <button class="status-bar-format-change-button" data-type="2">ゲージ込み</button>
 					}}}
 				</div>
 				<div class="status-bar" data-formattype="0">
@@ -313,6 +313,10 @@ const statusGageMaxValues = {
 		font-weight: bold;
 		cursor: pointer;
 		user-select: none;
+		line-height: inherit;
+		color: inherit;
+		outline-color: #08F;
+		outline-offset: 1px;
 	}
 	.status-bar-format-change-button.is-active{
 		background-color: #222;
