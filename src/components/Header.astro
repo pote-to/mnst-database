@@ -5,7 +5,7 @@ import { rootRelPath } from "../js/rootRelPath";
 <header>
     <div class="container">
         <a href={rootRelPath('/')} class="site-title">モンストDB</a>
-        <nav class="fnavi">
+        <nav class="header-navi">
             <ul>
                 <li><a href="https://www.monster-strike.com">公式サイト</a></li>
                 <li><a href="https://www.youtube.com/@monsterstrike">公式YouTubeチャンネル</a></li>
@@ -34,15 +34,30 @@ import { rootRelPath } from "../js/rootRelPath";
         font-size: 1em;
         color: #111;
     }
-    .fnavi ul,
-    .fnavi ul li{
+    .header-navi ul{
+        display: flex;
+        margin: 0;
+        padding: 0;
+        gap: 0.8em;
+        list-style: none;
+    }
+    .header-navi ul li{
         display: contents;
     }
+    .header-navi a{
+        color: #000;
+        text-decoration: none;
+    }
+    @media (hover: hover) {
+        .header-navi a:hover{
+            text-decoration: underline;
+        }
+	}
 	@media (max-width:767.98px) {
         .container{
             font-size: 1.15em;
         }
-		.fnavi{
+		.header-navi{
             display: none;
         }
 	}
