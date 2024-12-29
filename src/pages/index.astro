@@ -8,9 +8,9 @@ import { rootRelPath } from '../js/rootRelPath';
 	<main>
 		<h1>モンストDBへようこそ</h1>
 		<p class="instructions">各キャラクターのSSの仕様、倍率など、独自に調べたものをまとめています。</p>
-		<div>
-			<p><a href={rootRelPath('/monster/')}>データ一覧</a></p>
-		</div>
+		<nav class="site-navigation">
+			<div><a href={rootRelPath('/monster/')}>データ一覧</a></div>
+		</nav>
 		<div class="official-websites">
 			<div>公式サイト</div>
 			<ul class="link-card-grid">
@@ -37,13 +37,30 @@ import { rootRelPath } from '../js/rootRelPath';
 		border-radius: 8px;
 		background-color: #D0E8F8;
 	}
+	.site-navigation {
+		margin-block: 1em;
+	}
+	.site-navigation > div {
+		border-radius: 6px;
+		border: 1px solid #111;
+	}
+	.site-navigation a{
+		display: block;
+		color: #202020;
+		font-weight: bold;
+		text-decoration: none;
+		padding-inline: 0.8em;
+		padding-block: 0.6em;
+		border-radius: inherit;
+		font-size: 1.05em;
+	}
 	.official-websites {
 		padding-inline: 1px;
+		font-size: 0.95em;
 	}
 	.official-websites > div {
 		margin-block: 0.3em;
 		font-weight: bold;
-		font-size: 1.05em;
 		padding-inline: 0.4em;
 	}
 	.link-card-grid {
@@ -52,5 +69,10 @@ import { rootRelPath } from '../js/rootRelPath';
 		gap: 1em 1.6em;
 		padding: 0;
 		margin-block: 1em;
+	}
+    @media (hover: hover) {
+        .site-navigation a:hover{
+			background-color: #F2F2F2;
+        }
 	}
 </style>
