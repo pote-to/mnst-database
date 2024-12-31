@@ -1,0 +1,65 @@
+{
+	"name": "エル：堕天モード",
+    "number": 8197,
+    "element": 4,
+    "tribe": "亜人",
+    "hittype": 1,
+    "gageshot": 1,
+    "statustype": 2,
+    "status": {
+        "HP": {
+            "base": 20531,
+            "plus": 4900
+        },
+        "ATK": {
+            "base": 22502,
+            "plus": 2850
+        },
+        "SPD": {
+            "base": 419.37,
+            "plus": 66.30
+        }
+    },
+    "ability": {
+        "base": ["超アンチダメージウォール","アンチブロック","全属性キラー","無属性耐性M"],
+        "gage": ["超アンチ転送壁","アンチ減速床","アタックターンキラーM"],
+        "shotskill": "最初にふれた味方を率いて敵へ撃ちこむ",
+        "assistskill": "「エル：堕天モード」が攻撃力アップ状態になった際に、その効果を受ける"
+    },
+    "strikeshot": {
+        "name": "ヘルタースケルター",
+        "turn": [12,20],
+        "description": "パワーがアップ＆壁にふれると稀にスピードがアップ",
+        "data": {
+            "basis": {
+                "attack": [1.1,1.5],
+                "speed": [1.0,1.5],
+                "deceleration": null
+            },
+            "effects": [{
+                "name": "スピードアップ",
+                "properties": [{
+                    "label":"加速量",
+                    "value":["靴1個分","靴1個分"]
+                },{
+                    "label":"加速上限",
+                    "value":["7回","10回"]
+                }]
+            }]
+        }
+    },
+    "bumpcombo": [
+        {
+            "name": "ラジアルエッジ",
+            "element": 4,
+            "power": 134325,
+            "description": "壁にふれると拡散する貫通属性弾をふれた味方の進行方向に発射"
+        },
+        {
+            "name": "超絶防御ダウンブラスト",
+            "element": 0,
+            "power": 110250,
+            "description": "自身を中心に敵を防御力ダウンさせる超強力な範囲攻撃"
+        }
+    ]
+}

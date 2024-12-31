@@ -1,0 +1,74 @@
+{
+	"name": "エル：破邪モード",
+    "number": 8198,
+    "element": 4,
+    "tribe": "亜人",
+    "hittype": 0,
+    "gageshot": 1,
+    "statustype": 3,
+    "status": {
+        "HP": {
+            "base": 18699,
+            "plus": 4900
+        },
+        "ATK": {
+            "base": 19865,
+            "plus": 2850
+        },
+        "SPD": {
+            "base": 355.37,
+            "plus": 66.30
+        }
+    },
+    "ability": {
+        "base": ["超アンチワープ","超マインスイーパーL","アンチ魔法陣","全属性キラーM"],
+        "gage": ["アンチブロック","アンチ減速床","SSターンブースト"],
+        "shotskill": "停止後に最初にふれた味方を集める",
+        "assistskill": "各マップ開始時にバリアを張る"
+    },
+    "strikeshot": {
+        "name": "キャッチャー・イン・ザ・ライ",
+        "turn": [12,24],
+        "description": "味方を動かし敵へ撃ちこむ＆敵を倒せば倒すほど、味方全員のパワーが一定期間アップする",
+        "data": {
+            "basis": {
+                "attack": [1.1,1.3],
+                "speed": [3,8],
+                "deceleration": null
+            },
+            "effects": [{
+                "name": "大号令",
+                "properties": [{
+                    "label":"攻撃",
+                    "value":["1.3倍","2.0倍"]
+                },{
+                    "label":"速度",
+                    "value":["1.00倍","6.25倍"]
+                }]
+            },{
+                "name": "攻撃力バフ",
+                "properties": [{
+                    "label":"倍率",
+                    "value":["1+0.115n倍","1+0.150n倍"]
+                },{
+                    "label":"継続",
+                    "value":["1A","2A"]
+                }]
+            }]
+        }
+    },
+    "bumpcombo": [
+        {
+            "name": "エナジースパーク",
+            "element": 4,
+            "power": 945000,
+            "description": "ふれた味方に付与されたエナジースパークで攻撃"
+        },
+        {
+            "name": "全敵貫通分裂弾",
+            "element": 4,
+            "power": 157500,
+            "description": "分裂する貫通属性弾で弱った敵を攻撃"
+        }
+    ]
+}
